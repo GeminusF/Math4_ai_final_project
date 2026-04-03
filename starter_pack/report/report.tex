@@ -57,7 +57,15 @@
 \begin{document}
 
 \begin{abstract}
-This report investigates when a one-hidden-layer nonlinear classifier meaningfully improves on a linear decision rule, and when additional model complexity is unnecessary. We compare multiclass softmax regression and a one-hidden-layer neural network with $\tanhact$ activations on three shared tasks: a linear Gaussian synthetic dataset, a nonlinear moons dataset, and a fixed 10-class digits benchmark. On the Gaussian task both models achieve identical test accuracy ($95.0\%$), which is consistent with extra capacity being superfluous when the Bayes-optimal boundary is affine. On the moons task the neural network reaches $97.5\%$ accuracy versus $85.0\%$ for softmax regression, showing that nonlinear representation is necessary for interleaving class geometries. On the digits benchmark the neural network obtains a test accuracy of $95.71\% \pm 0.91\%$ compared to $93.97\% \pm 0.15\%$ for softmax regression (5-seed, 95\% CI), with non-overlapping cross-entropy confidence intervals. Our analysis combines mathematical derivations, controlled experiments, capacity ablations, optimizer studies, failure-case analysis, and a Track~B confidence/reliability investigation to determine where linear geometry suffices and where nonlinear representation genuinely changes the problem.
+This report shows when a \textbf{one-hidden-layer nonlinear classifier} is actually better than a simple \textbf{linear decision rule} and when adding more complexity to the model is not necessary. We compare two models: \textbf{multiclass softmax regression} (a linear model) and a \textbf{one-hidden-layer neural network} with \textbf{$\tanhact$ activations}. These models are tested on three tasks: a \textbf{linear Gaussian synthetic dataset}, a \textbf{nonlinear moons dataset}, and a \textbf{fixed 10-class digits benchmark}.
+
+\begin{itemize}
+  \item \textbf{On the Gaussian task}, both models achieved the same \textbf{test accuracy} of $\mathbf{95.0\%}$, showing that extra model complexity is not needed when the data is \textbf{linearly separable}.
+  \item \textbf{On the moons task}, the \textbf{neural network} achieved $\mathbf{97.5\%}$ \textbf{accuracy}, while the \textbf{softmax regression} model reached only $\mathbf{85.0\%}$. It shows that \textbf{nonlinear models} are essential for handling \textbf{complex data geometries}.
+  \item \textbf{On the digits benchmark}, the \textbf{neural network} reached $\mathbf{95.71\% \pm 0.91\%}$ accuracy, compared to $\mathbf{93.97\% \pm 0.15\%}$ for softmax regression (based on 5 seeds, 95\% confidence interval). The neural network also showed \textbf{better-calibrated probabilities}, with \textbf{non-overlapping cross-entropy confidence intervals}.
+\end{itemize}
+
+Our analysis combines \textbf{mathematical derivations}, \textbf{controlled experiments}, \textbf{capacity ablations}, \textbf{optimizer studies}, \textbf{failure-case analysis}, and a \textbf{Track~B confidence/reliability investigation} to determine when \textbf{linear models} work well and when \textbf{nonlinear models} provide a meaningful improvement.
 \end{abstract}
 
 \keywords{softmax regression, neural networks, backpropagation, cross-entropy, classification, NumPy}
@@ -71,7 +79,9 @@ This report investigates when a one-hidden-layer nonlinear classifier meaningful
 \paragraph{Central question.}
 When does a one-hidden-layer nonlinear classifier improve on a linear decision rule, and when is additional model complexity unnecessary?
 
-This capstone investigates that question through a deliberately controlled comparison between a linear probabilistic classifier (softmax regression) and a simple nonlinear neural model (one-hidden-layer network with $\tanhact$ activations and softmax output). The mathematical interest lies in understanding the geometric representational limits of linear models, which can only separate classes with affine hyperplanes, versus the capacity of a hidden nonlinear transformation to reshape data into configurations amenable to linear readout~\cite{deisenroth2020mml,goodfellow2016deep}. The goal is not to assume that the neural network should outperform the baseline everywhere; rather, we determine, with mathematical and empirical evidence, when extra representational capacity is justified.
+This report looks into that question by comparing two models: a simple \textbf{linear classifier} (\textbf{softmax regression}) and a \textbf{nonlinear neural network} with a \textbf{hidden layer} using \textbf{$\tanhact$ activations} and \textbf{softmax output}. The main idea is to understand the \textbf{limits} of linear models, which can only separate data with \textbf{straight lines} (or hyperplanes), versus how the \textbf{hidden layer} in a neural network can transform data into something easier for the model to classify.
+
+We don't assume the neural network will always perform better. Instead, we're trying to figure out, based on both \textbf{math} and \textbf{experiments}, when the extra complexity of a neural network actually makes sense.
 
 \paragraph{Contributions.}
 \begin{enumerate}[leftmargin=*,itemsep=0.25em]
